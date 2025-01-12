@@ -12,6 +12,9 @@ function main() {
 }
 
 if (import.meta.main) {
-  console.log('analyzeTournamentProgress defined:', !!analyzeTournamentProgress);
+  console.log(
+    "analyzeTournamentProgress defined:",
+    !!analyzeTournamentProgress,
+  );
   main();
 }

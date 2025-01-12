@@ -1,5 +1,5 @@
 import { Router } from "jsr:@oak/oak/router";
-import type {  RouterContext } from "jsr:@oak/oak/router";
+import type { RouterContext } from "jsr:@oak/oak/router";
 import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
 
 import { analyzeTournamentProgress } from "../project-tak-tourney-adhoc/src/tournament-analyzer.ts";
@@ -23,7 +23,7 @@ router.get("/tournament", (ctx: RouterContext<string>) => {
       dateRange: {
         start: new Date(),
         end: new Date(),
-      }
+      },
     },
     games: [],
   });
