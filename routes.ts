@@ -6,6 +6,10 @@ export const router = new Router();
 
 const eta = new Eta({ views: "./templates" });
 
-router.get("/", (ctx: RouterContext<string>) => {
-  ctx.response.body = eta.render("./simple", { name: "devp" });
-});
+function makeRenderer(templateName: string, templateOptions = {}) {
+  return (ctx: RouterContext<string>) => {
+    ctx.response.body = eta.render(templateName, templateOptions);
+  };
+}
+
+router.get("/", makeRenderer("./simple", { name: "devp" }));
