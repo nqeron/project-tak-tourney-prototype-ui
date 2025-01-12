@@ -1,15 +1,11 @@
 import { Router } from "jsr:@oak/oak/router";
 import type {  RouterContext } from "jsr:@oak/oak/router";
+import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
 
 export const router = new Router();
 
-router.get("/", (ctx: RouterContext) => {
-  ctx.response.body = `<!DOCTYPE html>
-    <html>
-      <head><title>Hello oak!</title><head>
-      <body>
-        <h1>Hello oak!</h1>
-      </body>
-    </html>
-  `;
+const eta = new Eta({ views: "./templates" });
+
+router.get("/", (ctx: RouterContext<string>) => {
+  ctx.response.body = eta.render("./simple", { name: "devp" });
 });
