@@ -1,8 +1,17 @@
-export function add(a: number, b: number): number {
-  return a + b;
+import { Application } from "jsr:@oak/oak/application";
+
+import { analyzeTournamentProgress } from "../project-tak-tourney-adhoc/src/tournament-analyzer.ts";
+
+import { router } from "./routes.ts";
+
+function main() {
+  const app = new Application();
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+  app.listen({ port: 3000 });
 }
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
+  console.log('analyzeTournamentProgress defined:', !!analyzeTournamentProgress);
+  main();
 }
