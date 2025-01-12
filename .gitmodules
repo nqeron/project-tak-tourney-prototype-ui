@@ -1,0 +1,3 @@
+[submodule "vendor/project-tak-tourney-adhoc"]
+	path = vendor/project-tak-tourney-adhoc
+	url = https://github.com/devp/project-tak-tourney-adhoc.git
