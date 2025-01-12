@@ -1,0 +1,3 @@
+<% layout("./layouts/basic.eta") %>
+
+<p><%= JSON.stringify(it.status) %></p>
