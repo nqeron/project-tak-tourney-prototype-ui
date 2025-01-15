@@ -1,6 +1,5 @@
 import { Application } from "jsr:@oak/oak/application";
-
-import { analyzeTournamentProgress } from "../project-tak-tourney-adhoc/src/tournament-analyzer.ts";
+import { analyzeTournamentProgress } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/tournament-analyzer.ts";
 
 import { router } from "./routes.ts";
 

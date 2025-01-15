@@ -9,6 +9,7 @@
     "jsr:@std/encoding@1": "1.0.6",
     "jsr:@std/encoding@^1.0.5": "1.0.6",
     "jsr:@std/http@1": "1.0.12",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/media-types@1": "1.1.0",
     "jsr:@std/path@1": "1.0.8",
     "npm:path-to-regexp@^6.3.0": "6.3.0"
@@ -38,7 +39,10 @@
       ]
     },
     "@std/assert@1.0.10": {
-      "integrity": "59b5cbac5bd55459a19045d95cc7c2ff787b4f8527c0dd195078ff6f9481fbb3"
+      "integrity": "59b5cbac5bd55459a19045d95cc7c2ff787b4f8527c0dd195078ff6f9481fbb3",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
     },
     "@std/bytes@1.0.4": {
       "integrity": "11a0debe522707c95c7b7ef89b478c13fb1583a7cfb9a85674cd2cc2e3a28abc"
@@ -54,6 +58,9 @@
       "dependencies": [
         "jsr:@std/encoding@^1.0.5"
       ]
+    },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
     },
     "@std/media-types@1.1.0": {
       "integrity": "c9d093f0c05c3512932b330e3cc1fe1d627b301db33a4c2c2185c02471d6eaa4"
@@ -78,7 +85,10 @@
     "https://deno.land/x/eta@v3.1.0/src/parse.ts": "8cb25b4ccf58ea7f08fe9835f7eb8bf45917d6d743d28d1e25cadc9fc908cb32",
     "https://deno.land/x/eta@v3.1.0/src/render.ts": "bfd57548d5fdae11c1c1683ff748783c1f85be3db3c24fcc80ce915692b004dd",
     "https://deno.land/x/eta@v3.1.0/src/storage.ts": "c40bd31cdd6f1218c86f70067282709e2f2c7fa7eea67547be950e1ed5d4bd4c",
-    "https://deno.land/x/eta@v3.1.0/src/utils.ts": "1994c8d228195558fb6785fb00a97cf21a457df598a6ab1945170f7a4b7f00d9"
+    "https://deno.land/x/eta@v3.1.0/src/utils.ts": "1994c8d228195558fb6785fb00a97cf21a457df598a6ab1945170f7a4b7f00d9",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/constants.ts": "127bb8d5227fb7976ea1888ad59d15059a7a08c41b7fb96a2cb827973b3d5843",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/tournament-analyzer.ts": "5060030690b917070a8368da1c7a98cce9c05d153ba6064245bcb31a6e6414b8",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/utils.ts": "e60f0c3d51a65cdc85b297297326e3738708de71bbc458b061a93b37f625a1a8"
   },
   "workspace": {
     "dependencies": [
