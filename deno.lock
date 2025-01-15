@@ -87,7 +87,11 @@
     "https://deno.land/x/eta@v3.1.0/src/storage.ts": "c40bd31cdd6f1218c86f70067282709e2f2c7fa7eea67547be950e1ed5d4bd4c",
     "https://deno.land/x/eta@v3.1.0/src/utils.ts": "1994c8d228195558fb6785fb00a97cf21a457df598a6ab1945170f7a4b7f00d9",
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/constants.ts": "127bb8d5227fb7976ea1888ad59d15059a7a08c41b7fb96a2cb827973b3d5843",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.guard.ts": "68de7b62dee317a40ae7c6d67dab91d79dad8e7489223d82bdde98c2a9877396",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.ts": "3a9b328ace7bfe5034ebd9c06dc3b55facddd3771e125cfb94f2e6bddf0fb865",
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/tournament-analyzer.ts": "5060030690b917070a8368da1c7a98cce9c05d153ba6064245bcb31a6e6414b8",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.guard.ts": "57016027d04abfbfb502f7f0f251851473012f150ec4cb275b9e6678675de6d3",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.ts": "58af463f157da8918b26ad339d3b57bf6fda1adc232e6bcc0fd0f8cbb937c640",
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/utils.ts": "e60f0c3d51a65cdc85b297297326e3738708de71bbc458b061a93b37f625a1a8"
   },
   "workspace": {

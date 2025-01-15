@@ -1,0 +1,7 @@
+<% layout("./layouts/basic.eta") %>
+
+<ul>
+  <% for (const tournamentId of it.tournaments) { %>
+    <li><a href="/tournaments/<%= tournamentId %>"><%= tournamentId %></a></li>
+  <% } %>
+</ul>

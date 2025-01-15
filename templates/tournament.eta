@@ -1,3 +1,5 @@
 <% layout("./layouts/basic.eta") %>
 
-<p><%= JSON.stringify(it.status) %></p>
+<p>t: <%= JSON.stringify(it.tournament.name) %></p>
+
+<p>status: <%= JSON.stringify(it.status) %></p>
