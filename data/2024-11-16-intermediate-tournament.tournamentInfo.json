@@ -1,0 +1,15 @@
+{
+  "name": "November 2024 Intermediate Tournament",
+  "tournamentType": "groupStage",
+  "dateRange": {
+    "start": "2024-11-16",
+    "end": "2024-12-09"
+  },
+  "expectedGameSettings": {
+    "size": 6,
+    "timertime": 900,
+    "timerinc": 10,
+    "komi": 4
+  },
+  "players": []
+}
