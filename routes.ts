@@ -139,8 +139,47 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
   }))(ctx);
 });
 
-router.get("/tournaments/:id/:groupIndex", async (ctx: RouterContext<string>) => {
-  const id = ctx.params.id;
-  const groupIndex = ctx.params.groupIndex;
-});
+router.get(
+  "/tournaments/:id/groups/:groupIndex",
+  async (ctx: RouterContext<string>) => {
+    const id = ctx.params.id;
+    const { tournamentInfo, status, error } = await getTournamentData(id);
+    console.log(tournamentInfo, status, error, id);
+    if (error) {
+      return ctx.response.status = error;
+    }
+    if (!tournamentInfo) {
+      return ctx.response.status = 404;
+    }
 
+    if (status?.tournamentType !== "groupStage") {
+      return ctx.response.status = 404;
+    }
+
+    const groupIndex = parseInt(ctx.params.groupIndex);
+    if (isNaN(groupIndex) || groupIndex < 0) {
+      return ctx.response.status = 400;
+    }
+    if (groupIndex >= status.groups.length) {
+      return ctx.response.status = 404;
+    }
+
+    const group = status.groups[groupIndex];
+    const groupPlayers = status.players.filter((player) =>
+      player.group === group.name
+    );
+
+    return (makeRenderer("./tournament-group", {
+      tournament: {
+        name: tournamentInfo.name,
+        infoUrl: tournamentInfo.infoUrl,
+      },
+      group: {
+        name: group.name,
+        players: groupPlayers,
+        winner: group.winner,
+        winner_method: group.winner_method,
+      },
+    }))(ctx);
+  },
+);
