@@ -57,20 +57,20 @@ async function fetchGamesResponse(url: string) {
   return response;
 }
 
-router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
-  const id = ctx.params.id;
+async function getTournamentData(id: string) {
   const tournamentData =
     KNOWN_TOURNAMENTS[id as keyof typeof KNOWN_TOURNAMENTS] ?? null;
   if (tournamentData === null) {
-    return ctx.response.status = 404;
+    return { error: 404 };
   }
 
   const tournamentInfoFromJson = JSON.parse(
     await Deno.readTextFile(tournamentData.infoPath),
   );
   if (!isTournamentInfoFromJson(tournamentInfoFromJson)) {
-    return ctx.response.status = 400;
+    return { error: 400 };
   }
+
   const tournamentInfo: TournamentInfo = {
     ...tournamentInfoFromJson,
     dateRange: {
@@ -87,7 +87,7 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
     } else {
       const gamesResponse = await fetchGamesResponse(API_URL);
       if (gamesResponse === null) {
-        return ctx.response.status = 400;
+        return { error: 400 };
       }
       const games = gamesResponse.items;
 
@@ -103,6 +103,18 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
 
       GeneratedTournamentStatusCache.set(id, status);
     }
+  }
+
+  return { tournamentInfo, status, error: null };
+}
+
+router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
+  const { tournamentInfo, status, error } = await getTournamentData(ctx.params.id);
+  if (!tournamentInfo) {
+    return ctx.response.status = 404;
+  }
+  if (error) {
+    return ctx.response.status = error;
   }
 
   const groupStatus = (status?.tournamentType === "groupStage")
@@ -124,3 +136,9 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
     groupStatus,
   }))(ctx);
 });
+
+router.get("/tournaments/:id/:groupIndex", async (ctx: RouterContext<string>) => {
+  const id = ctx.params.id;
+  const groupIndex = ctx.params.groupIndex;
+});
+
