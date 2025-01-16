@@ -22,7 +22,9 @@ function makeRenderer(templateName: string, templateOptions = {}) {
   };
 }
 
-router.get("/", makeRenderer("./simple", { name: "devp" }));
+router.get("/", (ctx) => {
+  ctx.response.redirect("/tournaments");
+});
 
 router.get("/tournaments", (ctx: RouterContext<string>) => {
   return (makeRenderer("./tournaments", {
