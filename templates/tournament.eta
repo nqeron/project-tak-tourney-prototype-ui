@@ -2,9 +2,21 @@
 
 <h2><%= it.tournament.name %></h2>
 
-<% if (it.status.tournamentType === "groupStage") { %>
+<p>
+    Further information is <a href="<%= it.tournament.infoUrl %>">here</a>.
+    Individual game results are links to the game in ptn.ninja.
+</p>
+
+<% if (it.groupStatus) { %>
+    <p>
+        The individual group standings can be found here:
+        <% for (const group of it.groupStatus.groups) { %>
+            <%= group.name %>
+        <% } %>
+    </p>
+
     <h2>Group Stage</h2>
-    <% for (const group of it.status.groups) { %>
+    <% for (const group of it.groupStatus.groups) { %>
         <h3><%= group.name %></h3>
         <table>
             <tr>
@@ -12,14 +24,12 @@
                 <th>Score</th>
                 <th>Games Played</th>
             </tr>
-            <% for (const player of it.status.players) { %>
-                <% if (player.group === group.name) { %>
-                    <tr>
-                        <td><%= player.username %></td>
-                        <td><%= player.score %></td>
-                        <td><%= player.games_played %></td>
-                    </tr>
-                <% } %>
+            <% for (const player of group.players) { %>
+                <tr>
+                    <td><%= player.username %></td>
+                    <td><%= player.score %></td>
+                    <td><%= player.games_played %></td>
+                </tr>
             <% } %>
         </table>
         <div><em>Winner: <%= group.winner.username %> <% if (group.winner_method) { %>via <%= group.winner_method %><% } %></em></div>

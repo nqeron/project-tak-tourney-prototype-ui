@@ -105,10 +105,22 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
     }
   }
 
+  const groupStatus = (status?.tournamentType === "groupStage")
+    ? {
+      groups: status.groups.map((group) => ({
+        name: group.name,
+        players: status.players.filter((player) => player.group === group.name),
+        winner: group.winner,
+        winner_method: group.winner_method,
+      })),
+    }
+    : null;
+
   return (makeRenderer("./tournament", {
     tournament: {
       name: tournamentInfo.name,
+      infoUrl: tournamentInfo.infoUrl,
     },
-    status,
+    groupStatus,
   }))(ctx);
 });
