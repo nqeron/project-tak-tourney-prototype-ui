@@ -2,13 +2,17 @@ import { Router } from "jsr:@oak/oak/router";
 import type { RouterContext } from "jsr:@oak/oak/router";
 import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
 import { analyzeTournamentProgress } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/tournament-analyzer.ts";
-import { isTournamentInfoFromJson } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.guard.ts";
+import {
+  isTournamentInfoFromJson,
+  isTournamentStatus,
+} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.guard.ts";
 import { isGameListResponse } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.guard.ts";
 import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
 import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
-import {
+import type {
   TournamentInfo,
   TournamentPlayer,
+  TournamentStatus,
 } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.ts";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
 
@@ -76,10 +80,10 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
     },
   };
 
-  let status = {};
+  let status: TournamentStatus | undefined;
   if (tournamentData.playersCsvUrl) {
     const cachedStatus = GeneratedTournamentStatusCache.get(id);
-    if (cachedStatus) {
+    if (cachedStatus && isTournamentStatus(cachedStatus)) {
       status = cachedStatus;
     } else {
       const gamesResponse = await fetchGamesResponse(API_URL);
