@@ -163,7 +163,19 @@ router.get(
     const group = status.groups[groupIndex];
     const groupPlayers = status.players.filter((player) =>
       player.group === group.name
-    );
+    ).sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+
+    const ranks: Record<string, number> = {};
+    for (const [i, player] of groupPlayers.entries()) {
+      if (
+        i > 0 &&
+        groupPlayers[i - 1].score === player.score
+      ) {
+        ranks[player.username] = ranks[groupPlayers[i - 1].username];
+      } else {
+        ranks[player.username] = i + 1;
+      }
+    }
 
     return (makeRenderer("./tournament-group", {
       tournament: {
@@ -172,7 +184,10 @@ router.get(
       },
       group: {
         name: group.name,
-        players: groupPlayers,
+        players: groupPlayers.map((player) => ({
+          ...player,
+          rank: ranks[player.username],
+        })),
         winner: group.winner,
         winner_method: group.winner_method,
       },

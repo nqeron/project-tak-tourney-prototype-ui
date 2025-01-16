@@ -7,31 +7,24 @@
     Click on a username to see that player's games.
 </p>
 
-<% if (it.groupStatus) { %>
-    <p>
-        The individual group standings can be found here:
-        <% for (const [i, group] of it.groupStatus.groups.entries()) { %>
-            
-        <% } %>
-    </p>
-
-    <h2>Group Stage</h2>
-    <% for (const group of it.groupStatus.groups) { %>
-        <h3><%= it.group.name %></h3>
-        <table>
-            <tr>
-                <th>Player</th>
-                <th>Score</th>
-                <th>Games Played</th>
-            </tr>
-            <% for (const player of group.players) { %>
-                <tr>
-                    <td><%= player.username %></td>
-                    <td><%= player.score %></td>
-                    <td><%= player.games_played %></td>
-                </tr>
-            <% } %>
-        </table>
-        <div><em>Winner: <%= group.winner.username %> <% if (group.winner_method) { %>via <%= group.winner_method %><% } %></em></div>
+<table>
+    <tr>
+        <th>Place</th>
+        <th>Name</th>
+        <th>Matches</th>
+        <th>Score</th>
+    </tr>
+    <% for (const player of it.group.players) { %>
+        <tr>
+            <td><%= player.rank %></td>
+            <td><%= player.username %></td>
+            <td><%= player.score %></td>
+            <td><%= player.games_played %></td>
+        </tr>
     <% } %>
-<% } %>
+</table>
+<div>
+    <p>
+        <em>Winner: <%= it.group.winner.username %> <% if (it.group.winner_method) { %>via <%= it.group.winner_method %><% } %></em>
+    </p>
+</div>
