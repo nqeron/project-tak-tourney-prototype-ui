@@ -9,6 +9,7 @@ import {
   TournamentInfo,
   TournamentPlayer,
 } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.ts";
+import { ApiResponseCache } from "./cache.ts";
 
 export const router = new Router();
 
@@ -35,6 +36,19 @@ function parsePlayersCsv(playersCsv: string) {
     (parts) => [parts[0], parts[1]] as [string, string],
   );
   return rows.map(([username, group]) => ({ username, group }));
+}
+
+async function fetchGamesResponse(url: string) {
+  const cachedResponse = ApiResponseCache.get(url);
+  if (cachedResponse && isGameListResponse(cachedResponse)) {
+    return cachedResponse;
+  }
+  const response = await (await fetch(url)).json();
+  if (!isGameListResponse(response)) {
+    return null;
+  }
+  ApiResponseCache.set(url, response);
+  return response;
 }
 
 router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
@@ -64,9 +78,8 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
     tournamentData.playersCsvUrl &&
     tournamentData.gamesApiUrl
   ) {
-    const gamesResponse = await (await fetch(tournamentData.gamesApiUrl))
-      .json();
-    if (!isGameListResponse(gamesResponse)) {
+    const gamesResponse = await fetchGamesResponse(tournamentData.gamesApiUrl);
+    if (gamesResponse === null) {
       return ctx.response.status = 400;
     }
     const games = gamesResponse.items;
