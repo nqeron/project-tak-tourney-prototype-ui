@@ -5,6 +5,8 @@
     "start": "deno run --allow-net --allow-read main.ts"
   },
   "imports": {
+    "@lambdalisue/ttl-cache": "jsr:@lambdalisue/ttl-cache@^1.0.0",
+    "@oak/oak": "jsr:@oak/oak@^17.1.4",
     "@std/assert": "jsr:@std/assert@1"
   },
   "deploy": {

@@ -2,8 +2,10 @@
   "version": "4",
   "specifiers": {
     "jsr:@lambdalisue/ttl-cache@*": "1.0.0",
+    "jsr:@lambdalisue/ttl-cache@1": "1.0.0",
     "jsr:@oak/commons@1": "1.0.0",
     "jsr:@oak/oak@*": "17.1.4",
+    "jsr:@oak/oak@^17.1.4": "17.1.4",
     "jsr:@std/assert@0.221": "0.221.0",
     "jsr:@std/assert@1": "1.0.10",
     "jsr:@std/async@0.221": "0.221.0",
@@ -125,6 +127,8 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@lambdalisue/ttl-cache@1",
+      "jsr:@oak/oak@^17.1.4",
       "jsr:@std/assert@1"
     ]
   }
