@@ -12,3 +12,7 @@ deployctl deploy
 Configured to github user `devp`. Project name `project-tak-tourney-protot`.
 
 Production deployment: https://devp-project-tak-tourney.deno.dev/
+
+### Integrating with another site
+
+See `integration/redirect-to-beginners-tournament/index.html`.
