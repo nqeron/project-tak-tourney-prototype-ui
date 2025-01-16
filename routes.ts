@@ -8,7 +8,6 @@ import {
 } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.guard.ts";
 import { isGameListResponse } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.guard.ts";
 import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
-import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
 import type {
   TournamentInfo,
   TournamentPlayer,
