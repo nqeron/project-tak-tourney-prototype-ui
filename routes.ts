@@ -9,7 +9,7 @@ import {
   TournamentInfo,
   TournamentPlayer,
 } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.ts";
-import { ApiResponseCache } from "./cache.ts";
+import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
 
 export const router = new Router();
 
@@ -75,20 +75,28 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
 
   let status = {};
   if (tournamentData.playersCsvUrl) {
-    const gamesResponse = await fetchGamesResponse(API_URL);
-    if (gamesResponse === null) {
-      return ctx.response.status = 400;
+    const cachedStatus = GeneratedTournamentStatusCache.get(id);
+    if (cachedStatus) {
+      status = cachedStatus;
+    } else {
+      const gamesResponse = await fetchGamesResponse(API_URL);
+      if (gamesResponse === null) {
+        return ctx.response.status = 400;
+      }
+      const games = gamesResponse.items;
+
+      const playersCsv = await (await fetch(tournamentData.playersCsvUrl))
+        .text();
+      const players: TournamentPlayer[] = parsePlayersCsv(playersCsv);
+      tournamentInfo.players = players;
+
+      status = analyzeTournamentProgress({
+        tournamentInfo,
+        games,
+      });
+
+      GeneratedTournamentStatusCache.set(id, status);
     }
-    const games = gamesResponse.items;
-
-    const playersCsv = await (await fetch(tournamentData.playersCsvUrl)).text();
-    const players: TournamentPlayer[] = parsePlayersCsv(playersCsv);
-    tournamentInfo.players = players;
-
-    status = analyzeTournamentProgress({
-      tournamentInfo,
-      games,
-    });
   }
 
   return (makeRenderer("./tournament", {
