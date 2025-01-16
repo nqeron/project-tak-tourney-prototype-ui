@@ -14,24 +14,4 @@
             <a href="/tournaments/<%= it.tournament.id %>/groups/<%= i %>"><%= group.name %></a>
         <% } %>
     </p>
-
-    <h2>Group Stage</h2>
-    <% for (const group of it.groupStatus.groups) { %>
-        <h3><%= group.name %></h3>
-        <table>
-            <tr>
-                <th>Player</th>
-                <th>Score</th>
-                <th>Games Played</th>
-            </tr>
-            <% for (const player of group.players) { %>
-                <tr>
-                    <td><%= player.username %></td>
-                    <td><%= player.score %></td>
-                    <td><%= player.games_played %></td>
-                </tr>
-            <% } %>
-        </table>
-        <div><em>Winner: <%= group.winner.username %> <% if (group.winner_method) { %>via <%= group.winner_method %><% } %></em></div>
-    <% } %>
 <% } %>

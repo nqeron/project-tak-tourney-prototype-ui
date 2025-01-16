@@ -122,9 +122,6 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
     ? {
       groups: status.groups.map((group) => ({
         name: group.name,
-        players: status.players.filter((player) => player.group === group.name),
-        winner: group.winner,
-        winner_method: group.winner_method,
       })),
     }
     : null;
@@ -144,7 +141,6 @@ router.get(
   async (ctx: RouterContext<string>) => {
     const id = ctx.params.id;
     const { tournamentInfo, status, error } = await getTournamentData(id);
-    console.log(tournamentInfo, status, error, id);
     if (error) {
       return ctx.response.status = error;
     }
