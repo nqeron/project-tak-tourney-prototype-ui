@@ -179,6 +179,7 @@ router.get(
 
     return (makeRenderer("./tournament-group", {
       tournament: {
+        id,
         name: tournamentInfo.name,
         infoUrl: tournamentInfo.infoUrl,
       },

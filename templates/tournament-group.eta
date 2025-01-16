@@ -28,3 +28,7 @@
         <em>Winner: <%= it.group.winner.username %> <% if (it.group.winner_method) { %>via <%= it.group.winner_method %><% } %></em>
     </p>
 </div>
+
+<div>
+    <a href="/tournaments/<%= it.tournament.id %>">&lt; <%= it.tournament.name %></a>
+</div>
