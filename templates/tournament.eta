@@ -10,8 +10,8 @@
 <% if (it.groupStatus) { %>
     <p>
         The individual group standings can be found here:
-        <% for (const group of it.groupStatus.groups) { %>
-            <%= group.name %>
+        <% for (const [i, group] of it.groupStatus.groups.entries()) { %>
+            <a href="/tournaments/<%= it.tournament.id %>/groups/<%= i %>"><%= group.name %></a>
         <% } %>
     </p>
 

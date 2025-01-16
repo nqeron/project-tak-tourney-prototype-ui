@@ -109,7 +109,8 @@ async function getTournamentData(id: string) {
 }
 
 router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
-  const { tournamentInfo, status, error } = await getTournamentData(ctx.params.id);
+  const id = ctx.params.id;
+  const { tournamentInfo, status, error } = await getTournamentData(id);
   if (!tournamentInfo) {
     return ctx.response.status = 404;
   }
@@ -130,6 +131,7 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
 
   return (makeRenderer("./tournament", {
     tournament: {
+      id,
       name: tournamentInfo.name,
       infoUrl: tournamentInfo.infoUrl,
     },
