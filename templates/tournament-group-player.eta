@@ -1,0 +1,30 @@
+<% layout("./layouts/basic.eta") %>
+
+<h2><%= it.tournament.name %> - <%= it.group.name %></h2>
+
+<h3><%= it.player.username %></h3>
+
+<table>
+    <tr>
+        <th>Place</th>
+        <th>Name</th>
+        <th>Matches</th>
+        <th>Score</th>
+    </tr>
+    <% for (const player of [it.player]) { %>
+        <tr>
+            <td><%= player.rank %></td>
+            <td><%= player.username %></td>
+            <td><%= player.score %></td>
+            <td><%= player.games_played %></td>
+        </tr>
+    <% } %>
+</table>
+
+<div><p></p></div>
+
+<div>
+    <a href="/tournaments/<%= it.tournament.id %>/groups/<%= it.group.index %>">
+        &lt; <%= it.tournament.name %> - <%= it.group.name %>
+    </a>
+</div>

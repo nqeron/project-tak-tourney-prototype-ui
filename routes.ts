@@ -211,3 +211,54 @@ router.get(
     }))(ctx);
   },
 );
+
+router.get(
+  "/tournaments/:id/groups/:groupIndex/players/:username",
+  async (ctx: RouterContext<string>) => {
+    const id = ctx.params.id;
+    const { tournamentInfo, status, error } = await getTournamentData(id);
+    if (error) {
+      return ctx.response.status = error;
+    }
+    if (!tournamentInfo) {
+      return ctx.response.status = 404;
+    }
+
+    if (status?.tournamentType !== "groupStage") {
+      return ctx.response.status = 404;
+    }
+
+    const groupIndex = parseInt(ctx.params.groupIndex);
+    const { group, groupPlayers, ranks, error: error2 } = getGroup(status, groupIndex);
+    if (error2) {
+      return ctx.response.status = error2;
+    }
+
+    const username = ctx.params.username;
+    if (!username) {
+      return ctx.response.status = 404;
+    }
+
+    const player = groupPlayers?.find((player) => player.username === username);
+    if (!player) {
+      return ctx.response.status = 404;
+    }
+
+    const games: string[] = []; // TODO
+
+    return (makeRenderer("./tournament-group-player", {
+      tournament: {
+        id,
+        name: tournamentInfo.name,
+      },
+      group: {
+        name: group?.name,
+        index: groupIndex,
+      },
+      player: {
+        ...player,
+        rank: ranks?.[player.username],
+      },
+    }))(ctx);
+  },
+);

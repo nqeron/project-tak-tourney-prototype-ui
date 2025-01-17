@@ -17,12 +17,15 @@
     <% for (const player of it.group.players) { %>
         <tr>
             <td><%= player.rank %></td>
-            <td><%= player.username %></td>
+            <td>
+              <a href="/tournaments/<%= it.tournament.id %>/groups/<%= it.group.index %>/players/<%= player.username %>"><%= player.username %></a>
+            </td>
             <td><%= player.score %></td>
             <td><%= player.games_played %></td>
         </tr>
     <% } %>
 </table>
+
 <div>
     <p>
         <em>Winner: <%= it.group.winner.username %> <% if (it.group.winner_method) { %>via <%= it.group.winner_method %><% } %></em>
