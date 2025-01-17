@@ -136,6 +136,37 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
   }))(ctx);
 });
 
+function getGroup(status: TournamentStatus, groupIndex: number) {
+  if (isNaN(groupIndex) || groupIndex < 0) {
+    return { error: 400 };
+  }
+  if (status.tournamentType !== "groupStage") {
+    return { error: 404 };
+  }
+  if (groupIndex >= status.groups.length) {
+    return { error: 404 };
+  }
+
+  const group = status.groups[groupIndex];
+  const groupPlayers = status.players.filter((player) =>
+    player.group === group.name
+  ).sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+
+  const ranks: Record<string, number> = {};
+  for (const [i, player] of groupPlayers.entries()) {
+    if (
+      i > 0 &&
+      groupPlayers[i - 1].score === player.score
+    ) {
+      ranks[player.username] = ranks[groupPlayers[i - 1].username];
+    } else {
+      ranks[player.username] = i + 1;
+    }
+  }
+
+  return { group, groupPlayers, ranks };
+}
+
 router.get(
   "/tournaments/:id/groups/:groupIndex",
   async (ctx: RouterContext<string>) => {
@@ -153,28 +184,12 @@ router.get(
     }
 
     const groupIndex = parseInt(ctx.params.groupIndex);
-    if (isNaN(groupIndex) || groupIndex < 0) {
-      return ctx.response.status = 400;
-    }
-    if (groupIndex >= status.groups.length) {
+    const { group, groupPlayers, ranks, error: error2 } = getGroup(status, groupIndex);
+    if (!group) {
       return ctx.response.status = 404;
     }
-
-    const group = status.groups[groupIndex];
-    const groupPlayers = status.players.filter((player) =>
-      player.group === group.name
-    ).sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
-
-    const ranks: Record<string, number> = {};
-    for (const [i, player] of groupPlayers.entries()) {
-      if (
-        i > 0 &&
-        groupPlayers[i - 1].score === player.score
-      ) {
-        ranks[player.username] = ranks[groupPlayers[i - 1].username];
-      } else {
-        ranks[player.username] = i + 1;
-      }
+    if (error2) {
+      return ctx.response.status = error2;
     }
 
     return (makeRenderer("./tournament-group", {
@@ -184,6 +199,7 @@ router.get(
         infoUrl: tournamentInfo.infoUrl,
       },
       group: {
+        index: groupIndex,
         name: group.name,
         players: groupPlayers.map((player) => ({
           ...player,
