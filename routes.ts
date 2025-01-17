@@ -39,7 +39,7 @@ function parsePlayersCsv(playersCsv: string) {
   const rows: [string, string][] = playersCsv.trim().split("\n").slice(1).map(
     (line) => line.trim().split(","),
   ).filter(Boolean).map(
-    (parts) => [parts[0], parts[1]] as [string, string],
+    (parts) => [parts[0].trim(), parts[1].trim()] as [string, string],
   );
   return rows.map(([username, group]) => ({ username, group }));
 }
