@@ -244,7 +244,7 @@ router.get(
       return ctx.response.status = 404;
     }
 
-    const games: string[] = []; // TODO
+    const games = status.games?.filter((game) => game.player_white === username || game.player_black === username);
 
     return (makeRenderer("./tournament-group-player", {
       tournament: {
@@ -259,6 +259,7 @@ router.get(
         ...player,
         rank: ranks?.[player.username],
       },
+      games,
     }))(ctx);
   },
 );

@@ -21,7 +21,14 @@
     <% } %>
 </table>
 
-<div><p></p></div>
+<div>
+    <p>Games</p>
+    <ul>
+        <% for (const game of it.games) { %>
+            <li><%= game.id %></li>
+        <% } %>
+    </ul>
+</div>
 
 <div>
     <a href="/tournaments/<%= it.tournament.id %>/groups/<%= it.group.index %>">
