@@ -14,6 +14,12 @@ import type {
   TournamentStatus,
 } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.ts";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
+import { GameResult } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.ts";
+import {
+  TIES,
+  WINS_FOR_BLACK,
+  WINS_FOR_WHITE,
+} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/constants.ts";
 
 export const router = new Router();
 
@@ -184,7 +190,10 @@ router.get(
     }
 
     const groupIndex = parseInt(ctx.params.groupIndex);
-    const { group, groupPlayers, ranks, error: error2 } = getGroup(status, groupIndex);
+    const { group, groupPlayers, ranks, error: error2 } = getGroup(
+      status,
+      groupIndex,
+    );
     if (!group) {
       return ctx.response.status = 404;
     }
@@ -229,7 +238,10 @@ router.get(
     }
 
     const groupIndex = parseInt(ctx.params.groupIndex);
-    const { group, groupPlayers, ranks, error: error2 } = getGroup(status, groupIndex);
+    const { group, groupPlayers, ranks, error: error2 } = getGroup(
+      status,
+      groupIndex,
+    );
     if (error2) {
       return ctx.response.status = error2;
     }
@@ -244,7 +256,48 @@ router.get(
       return ctx.response.status = 404;
     }
 
-    const games = status.games?.filter((game) => game.player_white === username || game.player_black === username);
+    const games = status.games?.filter((game) =>
+      game.player_white === username || game.player_black === username
+    );
+
+    const matchups: Record<
+      string,
+      { games: GameResult[]; score: number; opponentScore: number }
+    > = Object.fromEntries(
+      (groupPlayers ?? [])
+        .filter((player) => player.username !== username)
+        .map((player) => {
+          const matchupGames = games?.filter((game) =>
+            game.player_white === player.username ||
+            game.player_black === player.username
+          ) ?? [];
+          let score = 0;
+          let opponentScore = 0;
+          for (const game of matchupGames) {
+            if (WINS_FOR_WHITE.includes(game.result)) {
+              if (game.player_white === username) {
+                score += 2;
+              } else {
+                opponentScore += 2;
+              }
+            } else if (WINS_FOR_BLACK.includes(game.result)) {
+              if (game.player_black === username) {
+                score += 2;
+              } else {
+                opponentScore += 2;
+              }
+            } else if (TIES.includes(game.result)) {
+              score += 1;
+              opponentScore += 1;
+            }
+          }
+          return [player.username, {
+            games: matchupGames,
+            score,
+            opponentScore,
+          }];
+        }),
+    );
 
     return (makeRenderer("./tournament-group-player", {
       tournament: {
@@ -260,6 +313,7 @@ router.get(
         rank: ranks?.[player.username],
       },
       games,
+      matchups,
     }))(ctx);
   },
 );

@@ -7,28 +7,50 @@
 <table>
     <tr>
         <th>Place</th>
-        <th>Name</th>
-        <th>Matches</th>
+        <th>Games</th>
         <th>Score</th>
     </tr>
     <% for (const player of [it.player]) { %>
         <tr>
             <td><%= player.rank %></td>
-            <td><%= player.username %></td>
-            <td><%= player.score %></td>
             <td><%= player.games_played %></td>
+            <td><%= player.score %></td>
         </tr>
     <% } %>
 </table>
 
 <div>
-    <p>Games</p>
-    <ul>
-        <% for (const game of it.games) { %>
-            <li><%= game.id %></li>
-        <% } %>
-    </ul>
+    <% for (const [opponent, { games, score, opponentScore }] of Object.entries(it.matchups)) { %>
+        <table style="border: 1px solid black; margin: 1em;">
+            <% if (score >= opponentScore) { %>
+                <tr>
+                    <td><%= it.player.username %></td>
+                    <td><%= score %></td>
+                </tr>
+                <tr>
+                    <td><%= opponent %></td>
+                    <td><%= opponentScore %></td>
+                </tr>
+            <% } else { %>
+                <tr>
+                    <td><%= opponent %></td>
+                    <td><%= opponentScore %></td>
+                </tr>
+                <tr>
+                    <td><%= it.player.username %></td>
+                    <td><%= score %></td>
+                </tr>
+            <% } %>
+            <% for (const game of games) { %>
+                <tr>
+                    <td><a href="https://www.playtak.com/games/<%= game.id %>/ninjaviewer" target="_blank"><%= game.id %></a></td>
+                </tr>
+            <% } %>
+        </table>
+    <% } %>
 </div>
+
+<div><p></p></div>
 
 <div>
     <a href="/tournaments/<%= it.tournament.id %>/groups/<%= it.group.index %>">
