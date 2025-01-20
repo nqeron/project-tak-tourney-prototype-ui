@@ -2,10 +2,8 @@
   "version": "4",
   "specifiers": {
     "jsr:@lambdalisue/ttl-cache@*": "1.0.0",
-    "jsr:@lambdalisue/ttl-cache@1": "1.0.0",
     "jsr:@oak/commons@1": "1.0.0",
     "jsr:@oak/oak@*": "17.1.4",
-    "jsr:@oak/oak@^17.1.4": "17.1.4",
     "jsr:@std/assert@0.221": "0.221.0",
     "jsr:@std/assert@1": "1.0.10",
     "jsr:@std/async@0.221": "0.221.0",
@@ -14,7 +12,6 @@
     "jsr:@std/encoding@1": "1.0.6",
     "jsr:@std/encoding@^1.0.5": "1.0.6",
     "jsr:@std/http@1": "1.0.12",
-    "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/media-types@1": "1.1.0",
     "jsr:@std/path@1": "1.0.8",
     "npm:path-to-regexp@^6.3.0": "6.3.0"
@@ -53,10 +50,7 @@
       "integrity": "a5f1aa6e7909dbea271754fd4ab3f4e687aeff4873b4cef9a320af813adb489a"
     },
     "@std/assert@1.0.10": {
-      "integrity": "59b5cbac5bd55459a19045d95cc7c2ff787b4f8527c0dd195078ff6f9481fbb3",
-      "dependencies": [
-        "jsr:@std/internal"
-      ]
+      "integrity": "59b5cbac5bd55459a19045d95cc7c2ff787b4f8527c0dd195078ff6f9481fbb3"
     },
     "@std/async@0.221.0": {
       "integrity": "f5519861754a1bb2898d227dd8ccb545abc975534aa9063e53911d6cb4e365cf",
@@ -78,9 +72,6 @@
       "dependencies": [
         "jsr:@std/encoding@^1.0.5"
       ]
-    },
-    "@std/internal@1.0.5": {
-      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
     },
     "@std/media-types@1.1.0": {
       "integrity": "c9d093f0c05c3512932b330e3cc1fe1d627b301db33a4c2c2185c02471d6eaa4"
@@ -110,7 +101,7 @@
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.guard.ts": "68de7b62dee317a40ae7c6d67dab91d79dad8e7489223d82bdde98c2a9877396",
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.ts": "3a9b328ace7bfe5034ebd9c06dc3b55facddd3771e125cfb94f2e6bddf0fb865",
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/tournament-analyzer.ts": "d40790897c008634defeb22d9d4d71906ef1bfb025b5e931e28584de1d2524c7",
-    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.guard.ts": "57016027d04abfbfb502f7f0f251851473012f150ec4cb275b9e6678675de6d3",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.guard.ts": "f47af55f6468acc61b315497716023ebcb4d9ad0c2d9ee0eff93f02629ac9161",
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.ts": "31a870dc012c65378dad095ad2ed29186b6305b033f5805c96738bc60afdbfe1",
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/utils.ts": "11131693a886d588f19e6991dc9fb71d2ecdf6e975f0cfe3a057ddaf1b0b9b98"
   },
