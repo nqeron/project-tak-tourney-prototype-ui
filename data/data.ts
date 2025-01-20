@@ -14,7 +14,8 @@ const INTERMEDIATE_TOURNAMENT_NOV_2024: KnownTournamentRecord = {
 
 const BEGINNER_TOURNAMENT_JAN_2025: KnownTournamentRecord = {
   infoPath: "./data/2025-01-17-beginner-tournament.tournamentInfo.json",
-  playersCsvUrl: "https://gist.githubusercontent.com/devp/6ac3e0a57d3c68c67e7f3750aeb120e8/raw/a1a6d9bc40d08ee30521af0cc37f26fc8d7d2d8f/gistfile1.txt",
+  playersCsvUrl:
+    "https://gist.githubusercontent.com/devp/6ac3e0a57d3c68c67e7f3750aeb120e8/raw/166cf1e3bb3c80cd52c1ec23a01c88a01fa6377a/gistfile1.txt",
 };
 
 export const KNOWN_TOURNAMENTS = {
