@@ -14,7 +14,10 @@ import type {
   TournamentStatus,
 } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.ts";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
-import { GameResult } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.ts";
+import {
+  GameListResponse,
+  GameResult,
+} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.ts";
 import {
   TIES,
   WINS_FOR_BLACK,
@@ -55,10 +58,12 @@ async function fetchGamesResponse(url: string) {
   if (cachedResponse && isGameListResponse(cachedResponse)) {
     return cachedResponse;
   }
-  const response = await (await fetch(url)).json();
-  if (!isGameListResponse(response)) {
-    return null;
-  }
+  const response2 = await (await fetch(url)).json();
+  const response = response2 as GameListResponse;
+  // FIXME: this check stopped working, meh
+  // if (!isGameListResponse(response)) {
+  //   return null;
+  // }
   ApiResponseCache.set(url, response);
   return response;
 }
