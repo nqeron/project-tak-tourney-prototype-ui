@@ -208,6 +208,13 @@ router.get(
       return ctx.response.status = error2;
     }
 
+    const winner = (group.winner && !Array.isArray(group.winner))
+      ? group.winner
+      : null;
+    const tiedWinners = (group.winner && Array.isArray(group.winner) && (group.winner.length < groupPlayers.length))
+      ? group.winner
+      : null;
+
     return (makeRenderer("./tournament-group", {
       title: `${group.name} - ${tournamentInfo.name}`,
       tournament: {
@@ -220,9 +227,10 @@ router.get(
         name: group.name,
         players: groupPlayers.map((player) => ({
           ...player,
-          rank: ranks[player.username],
+          rank: ranks?.[player.username],
         })),
-        winner: group.winner,
+        winner,
+        tiedWinners,
         winner_method: group.winner_method,
       },
     }))(ctx);

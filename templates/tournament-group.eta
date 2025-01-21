@@ -28,7 +28,13 @@
 
 <div>
     <p>
-        <em>Winner: <%= it.group.winner.username %> <% if (it.group.winner_method) { %>via <%= it.group.winner_method %><% } %></em>
+    <% if (it.group.winner) { %>
+        <em>Current winner: <%= it.group.winner.username %> <% if (it.group.winner_method) { %>via <%= it.group.winner_method %><% } %></em>
+    <% } else if (it.group.tiedWinners) { %>
+        <em>Current winner: tie between <%= it.group.tiedWinners.map((w) => w.username).join(", ") %> <% if (it.group.winner_method) { %>via <%= it.group.winner_method %><% } %></em>
+    <% } else { %>
+        <em>Current winner: None (all players tied)</em>
+    <% } %>
     </p>
 </div>
 
