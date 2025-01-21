@@ -45,7 +45,7 @@ router.get("/tournaments", (ctx: RouterContext<string>) => {
 });
 
 function parsePlayersCsv(playersCsv: string) {
-  const rows: [string, string][] = playersCsv.trim().split("\n").slice(1).map(
+  const rows: [string, string][] = playersCsv.trim().split("\n").map(
     (line) => line.trim().split(","),
   ).filter(Boolean).map(
     (parts) => [parts[0].trim(), parts[1].trim()] as [string, string],
