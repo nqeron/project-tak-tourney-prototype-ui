@@ -34,12 +34,13 @@ function makeRenderer(templateName: string, templateOptions = {}) {
   };
 }
 
-router.get("/", (ctx) => {
+router.get("/", (ctx: RouterContext<string>) => {
   ctx.response.redirect("/tournaments");
 });
 
 router.get("/tournaments", (ctx: RouterContext<string>) => {
   return (makeRenderer("./tournaments", {
+    title: "Tournament List",
     tournaments: Object.keys(KNOWN_TOURNAMENTS),
   }))(ctx);
 });
@@ -138,6 +139,7 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
     : null;
 
   return (makeRenderer("./tournament", {
+    title: tournamentInfo.name,
     tournament: {
       id,
       name: tournamentInfo.name,
@@ -207,6 +209,7 @@ router.get(
     }
 
     return (makeRenderer("./tournament-group", {
+      title: `${group.name} - ${tournamentInfo.name}`,
       tournament: {
         id,
         name: tournamentInfo.name,
@@ -305,6 +308,7 @@ router.get(
     );
 
     return (makeRenderer("./tournament-group-player", {
+      title: `Player ${player.username} - ${tournamentInfo.name}`,
       tournament: {
         id,
         name: tournamentInfo.name,
