@@ -58,15 +58,19 @@ function parsePlayersCsv(playersCsv: string) {
 
 async function fetchGamesResponse(url: string) {
   const cachedResponse = ApiResponseCache.get(url);
-  if (cachedResponse && isGameListResponse(cachedResponse)) {
-    return cachedResponse;
+  if (cachedResponse) {
+    if (isGameListResponse(cachedResponse)) {
+      return cachedResponse;
+    } else {
+      console.info("Cache response failed isGameListResponse check");
+    }
   }
   const response2 = await (await fetch(url)).json();
   const response = response2 as GameListResponse;
-  // FIXME: this check stopped working, meh
-  // if (!isGameListResponse(response)) {
-  //   return null;
-  // }
+  if (!isGameListResponse(response)) {
+    console.error("API response failed isGameListResponse check");
+    return null;
+  }
   ApiResponseCache.set(url, response);
   return response;
 }
