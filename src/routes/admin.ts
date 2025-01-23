@@ -1,6 +1,7 @@
 import { Router } from "jsr:@oak/oak/router";
 import { Status } from "jsr:@oak/oak";
 import type { RouterContext } from "jsr:@oak/oak/router";
+import { makeRenderer } from "../util/renderer.ts";
 
 const ADMIN_USERNAME = "admin";
 // Load this variable from local env for local development.
@@ -48,5 +49,7 @@ adminRouter.use(basicAuthMiddleware);
 
 // Example admin route
 adminRouter.get("/", (ctx: RouterContext<string>) => {
-  ctx.response.body = "Admin Dashboard";
+  return (makeRenderer("./admin/index.eta", {
+    title: "Admin Dashboard",
+  }))(ctx);
 });

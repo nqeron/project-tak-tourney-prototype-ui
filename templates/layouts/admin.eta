@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            <%= it.title ? `${it.title} - ` : "" %>Playtak-compatible Tournament Management
+        </title>
+    </head>
+<body>
+<header>
+    <h1>Admin Dashboard</h1>
+</header>
+<%~ it.body %>
+</body>
+</html>
