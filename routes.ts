@@ -165,7 +165,12 @@ function getGroup(status: TournamentStatus, groupIndex: number) {
   const group = status.groups[groupIndex];
   const groupPlayers = status.players.filter((player) =>
     player.group === group.name
-  ).sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+  ).sort((a, b) => {
+    // Sort by score, then by games played
+    const scoreComparison = (b.score ?? 0) - (a.score ?? 0);
+    if (scoreComparison !== 0) return scoreComparison;
+    return (b.games_played ?? 0) - (a.games_played ?? 0);
+  });
 
   const ranks: Record<string, number> = {};
   for (const [i, player] of groupPlayers.entries()) {
