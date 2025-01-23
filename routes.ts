@@ -213,7 +213,8 @@ router.get(
     const winner = (group.winner && !Array.isArray(group.winner))
       ? group.winner
       : null;
-    const tiedWinners = (group.winner && Array.isArray(group.winner) && (group.winner.length < groupPlayers.length))
+    const tiedWinners = (group.winner && Array.isArray(group.winner) &&
+        (group.winner.length < groupPlayers.length))
       ? group.winner
       : null;
 
