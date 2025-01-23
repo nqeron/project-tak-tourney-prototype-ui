@@ -1,9 +1,9 @@
 import { Router } from "jsr:@oak/oak/router";
 import type { RouterContext } from "jsr:@oak/oak/router";
-import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
 import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
 import { adminRouter } from "./src/routes/admin.ts";
+import { makeRenderer } from "./src/util/renderer.ts";
 import {
   analyzeTournamentProgress,
   GameResultConstants,
@@ -32,14 +32,6 @@ export const router = new Router();
 // Admin routes
 router.use("/admin", adminRouter.routes());
 router.use("/admin", adminRouter.allowedMethods());
-
-const eta = new Eta({ views: "./templates" });
-
-function makeRenderer(templateName: string, templateOptions = {}) {
-  return (ctx: RouterContext<string>) => {
-    ctx.response.body = eta.render(templateName, templateOptions);
-  };
-}
 
 router.get("/", (ctx: RouterContext<string>) => {
   ctx.response.redirect("/tournaments");
