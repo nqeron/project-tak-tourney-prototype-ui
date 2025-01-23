@@ -1,28 +1,28 @@
 import { Router } from "jsr:@oak/oak/router";
 import type { RouterContext } from "jsr:@oak/oak/router";
 import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
-import { analyzeTournamentProgress } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/tournament-analyzer.ts";
+import { analyzeTournamentProgress } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/tournament-analyzer.ts";
 import {
   isTournamentInfoFromJson,
   isTournamentStatus,
-} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.guard.ts";
-import { isGameListResponse } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.guard.ts";
+} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/types.guard.ts";
+import { isGameListResponse } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/playtak-api/types.guard.ts";
 import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
 import type {
   TournamentInfo,
   TournamentPlayer,
   TournamentStatus,
-} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/types.ts";
+} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/types.ts";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
 import {
   GameListResponse,
   GameResult,
-} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/playtak-api/types.ts";
+} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/playtak-api/types.ts";
 import {
   TIES,
   WINS_FOR_BLACK,
   WINS_FOR_WHITE,
-} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/heads/main/src/constants.ts";
+} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/constants.ts";
 
 export const router = new Router();
 
