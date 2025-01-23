@@ -1,28 +1,30 @@
 import { Router } from "jsr:@oak/oak/router";
 import type { RouterContext } from "jsr:@oak/oak/router";
 import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
-import { analyzeTournamentProgress } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/tournament-analyzer.ts";
-import {
-  isTournamentInfoFromJson,
-  isTournamentStatus,
-} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/types.guard.ts";
-import { isGameListResponse } from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/playtak-api/types.guard.ts";
-import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
-import type {
-  TournamentInfo,
-  TournamentPlayer,
-  TournamentStatus,
-} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/types.ts";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
+import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
 import {
-  GameListResponse,
-  GameResult,
-} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/playtak-api/types.ts";
-import {
-  TIES,
-  WINS_FOR_BLACK,
-  WINS_FOR_WHITE,
-} from "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.1.0/src/constants.ts";
+  analyzeTournamentProgress,
+  GameResultConstants,
+  PlaytakApiTypeGuards,
+  TournamentStatusTypeGuards,
+} from "@tak-tourney-adhoc";
+
+import type {
+  PlaytakApiTypes,
+  TournamentStatusTypes,
+} from "@tak-tourney-adhoc";
+type GameListResponse = PlaytakApiTypes.GameListResponse;
+type GameResult = PlaytakApiTypes.GameResult;
+type TournamentStatus = TournamentStatusTypes.TournamentStatus;
+type TournamentInfo = TournamentStatusTypes.TournamentInfo;
+type TournamentPlayer = TournamentStatusTypes.TournamentPlayer;
+
+// Aliases for nested modules
+const { isGameListResponse } = PlaytakApiTypeGuards;
+const { isTournamentStatus, isTournamentInfoFromJson } =
+  TournamentStatusTypeGuards;
+const { WINS_FOR_WHITE, WINS_FOR_BLACK, TIES } = GameResultConstants;
 
 export const router = new Router();
 
