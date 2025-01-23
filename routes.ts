@@ -3,6 +3,7 @@ import type { RouterContext } from "jsr:@oak/oak/router";
 import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
 import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
+import { adminRouter } from "./src/routes/admin.ts";
 import {
   analyzeTournamentProgress,
   GameResultConstants,
@@ -27,6 +28,10 @@ const { isTournamentStatus, isTournamentInfoFromJson } =
 const { WINS_FOR_WHITE, WINS_FOR_BLACK, TIES } = GameResultConstants;
 
 export const router = new Router();
+
+// Admin routes
+router.use("/admin", adminRouter.routes());
+router.use("/admin", adminRouter.allowedMethods());
 
 const eta = new Eta({ views: "./templates" });
 
