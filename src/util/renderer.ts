@@ -5,6 +5,7 @@ const eta = new Eta({ views: "./templates" });
 
 export function makeRenderer(templateName: string, templateOptions = {}) {
   return (ctx: RouterContext<string>) => {
+    ctx.response.type = "html";
     ctx.response.body = eta.render(templateName, templateOptions);
   };
 }
