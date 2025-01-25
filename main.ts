@@ -1,7 +1,7 @@
 import { Application } from "jsr:@oak/oak/application";
 import { analyzeTournamentProgress } from "@tak-tourney-adhoc";
 
-import { router } from "./routes.ts";
+import { router } from "./src/routes.ts";
 
 function main() {
   const app = new Application();

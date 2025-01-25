@@ -1,9 +1,9 @@
 import { Router } from "jsr:@oak/oak/router";
 import type { RouterContext } from "jsr:@oak/oak/router";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
-import { API_URL, KNOWN_TOURNAMENTS } from "./data/data.ts";
-import { adminRouter } from "./src/routes/admin.ts";
-import { makeRenderer } from "./src/util/renderer.ts";
+import { API_URL, KNOWN_TOURNAMENTS } from "../data/data.ts";
+import { adminRouter } from "./routes/admin.ts";
+import { makeRenderer } from "./util/renderer.ts";
 import {
   analyzeTournamentProgress,
   GameResultConstants,
