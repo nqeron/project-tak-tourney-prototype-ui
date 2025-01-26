@@ -1,5 +1,4 @@
 import { Application } from "jsr:@oak/oak/application";
-import { analyzeTournamentProgress } from "@tak-tourney-adhoc";
 
 import { router } from "./src/routes.ts";
 
@@ -11,9 +10,5 @@ function main() {
 }
 
 if (import.meta.main) {
-  console.log(
-    "analyzeTournamentProgress defined:",
-    !!analyzeTournamentProgress,
-  );
   main();
 }

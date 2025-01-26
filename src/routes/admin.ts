@@ -15,7 +15,7 @@ async function basicAuthMiddleware(
   next: () => Promise<unknown>,
 ) {
   if (!ADMIN_PASSWORD) {
-    console.log("ADMIN_PASSWORD is not set");
+    console.error("ADMIN_PASSWORD is not set");
     ctx.response.status = Status.NotImplemented;
     return;
   }
