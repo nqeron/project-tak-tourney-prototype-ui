@@ -16,13 +16,14 @@ import type {
   PlaytakApiTypes,
   TournamentStatusTypes,
 } from "@tak-tourney-adhoc";
+import { Tournament } from "./models/tournament.ts";
 type GameResult = PlaytakApiTypes.GameResult;
 type TournamentStatus = TournamentStatusTypes.TournamentStatus;
 type TournamentPlayer = TournamentStatusTypes.TournamentPlayer;
 
 // Aliases for nested modules
 const { isGameResult, isGameListResponse } = PlaytakApiTypeGuards;
-const { isTournamentStatus, isTournamentInfo } = TournamentStatusTypeGuards;
+const { isTournamentStatus } = TournamentStatusTypeGuards;
 const { WINS_FOR_WHITE, WINS_FOR_BLACK, TIES } = GameResultConstants;
 
 export const router = new Router();
@@ -41,15 +42,6 @@ router.get("/tournaments", (ctx: RouterContext<string>) => {
     tournaments: Object.keys(KNOWN_TOURNAMENTS),
   }))(ctx);
 });
-
-function parsePlayersCsv(playersCsv: string) {
-  const rows: [string, string][] = playersCsv.trim().split("\n").map(
-    (line) => line.trim().split(","),
-  ).filter(Boolean).map(
-    (parts) => [parts[0].trim(), parts[1].trim()] as [string, string],
-  );
-  return rows.map(([username, group]) => ({ username, group }));
-}
 
 async function fetchGamesResponse(url: string) {
   const cachedResponse = ApiResponseCache.get(url);
@@ -85,57 +77,39 @@ async function fetchGameById(id: number): Promise<GameResult | null> {
 }
 
 async function getTournamentData(id: string) {
-  const tournamentData =
-    KNOWN_TOURNAMENTS[id as keyof typeof KNOWN_TOURNAMENTS] ?? null;
-  if (tournamentData === null) {
-    console.error("Tournament info not found in KNOWN_TOURNAMENTS for", id);
-    return { error: 404 };
-  }
-
-  const tournamentInfo = JSON.parse(
-    await Deno.readTextFile(tournamentData.infoPath),
-  );
-  if (!isTournamentInfo(tournamentInfo)) {
-    console.error(
-      `Tournament info read from ${tournamentData.infoPath} but invalid`,
-    );
+  const tournament = await Tournament.load(id);
+  if (!tournament.info) {
     return { error: 400 };
   }
+  const tournamentInfo = tournament.info;
 
   let status: TournamentStatus | undefined;
-  if (tournamentData.playersCsvUrl) {
-    const cachedStatus = GeneratedTournamentStatusCache.get(id);
-    if (cachedStatus && isTournamentStatus(cachedStatus)) {
-      status = cachedStatus;
-    } else {
-      const gamesResponse = await fetchGamesResponse(API_URL);
-      if (gamesResponse === null) {
-        return { error: 400 };
-      }
-      const games = gamesResponse.items;
-
-      const additionalGameIds = additionalGameIdsToFetch(tournamentInfo);
-      if (additionalGameIds.length > 0) {
-        const additionalGames = (await Promise.all(additionalGameIds.map(
-          (id) => fetchGameById(id),
-        ))).filter((g) => g !== null);
-        if (additionalGames.length > 0) {
-          games.push(...additionalGames);
-        }
-      }
-
-      const playersCsv = await (await fetch(tournamentData.playersCsvUrl))
-        .text();
-      const players: TournamentPlayer[] = parsePlayersCsv(playersCsv);
-      tournamentInfo.players = players;
-
-      status = analyzeTournamentProgress({
-        tournamentInfo,
-        games,
-      });
-
-      GeneratedTournamentStatusCache.set(id, status);
+  const cachedStatus = GeneratedTournamentStatusCache.get(id);
+  if (cachedStatus && isTournamentStatus(cachedStatus)) {
+    status = cachedStatus;
+  } else {
+    const gamesResponse = await fetchGamesResponse(API_URL);
+    if (gamesResponse === null) {
+      return { error: 400 };
     }
+    const games = gamesResponse.items;
+
+    const additionalGameIds = additionalGameIdsToFetch(tournamentInfo);
+    if (additionalGameIds.length > 0) {
+      const additionalGames = (await Promise.all(additionalGameIds.map(
+        (id) => fetchGameById(id),
+      ))).filter((g) => g !== null);
+      if (additionalGames.length > 0) {
+        games.push(...additionalGames);
+      }
+    }
+
+    status = analyzeTournamentProgress({
+      tournamentInfo,
+      games,
+    });
+
+    GeneratedTournamentStatusCache.set(id, status);
   }
 
   return { tournamentInfo, status, error: null };
