@@ -50,11 +50,22 @@ export class Tournament {
     return tournament;
   }
 
-  // deno-lint-ignore require-await
   async loadInfoFromKv() {
-    // TODO
-    console.log(keyOfId(this.id));
-    return false;
+    if (!this.kv) {
+      return false;
+    }
+
+    const result = await this.kv.get(keyOfId(this.id));
+    if (!result.value) {
+      return false;
+    }
+
+    if (!isTournamentInfo(result.value)) {
+      throw new Error(`Tournament info found in KV for ${this.id} but invalid`);
+    }
+
+    this.info = result.value;
+    return true;
   }
 
   async loadInfoFromDefaultData() {
