@@ -50,6 +50,15 @@ export class Tournament {
     return tournament;
   }
 
+  static async save(id: string, data: unknown, kv: Deno.Kv): Promise<boolean> {
+    if (!isTournamentInfo(data)) {
+      console.error("Invalid tournament info");
+      return false;
+    }
+    await kv.set(keyOfId(id), data);
+    return true;
+  }
+
   async loadInfoFromKv() {
     if (!this.kv) {
       return false;
