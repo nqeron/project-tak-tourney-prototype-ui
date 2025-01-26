@@ -76,8 +76,8 @@ async function fetchGameById(id: number): Promise<GameResult | null> {
   return response;
 }
 
-async function getTournamentData(id: string) {
-  const tournament = await Tournament.load(id);
+async function getTournamentData(id: string, kv: Deno.Kv) {
+  const tournament = await Tournament.load(id, kv);
   if (!tournament.info) {
     return { error: 400 };
   }
@@ -117,7 +117,8 @@ async function getTournamentData(id: string) {
 
 router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
   const id = ctx.params.id;
-  const { tournamentInfo, status, error } = await getTournamentData(id);
+  const kv = await Deno.openKv();
+  const { tournamentInfo, status, error } = await getTournamentData(id, kv);
   if (!tournamentInfo) {
     return ctx.response.status = 404;
   }
@@ -183,8 +184,9 @@ function getGroup(status: TournamentStatus, groupIndex: number) {
 router.get(
   "/tournaments/:id/groups/:groupIndex",
   async (ctx: RouterContext<string>) => {
+    const kv = await Deno.openKv();
     const id = ctx.params.id;
-    const { tournamentInfo, status, error } = await getTournamentData(id);
+    const { tournamentInfo, status, error } = await getTournamentData(id, kv);
     if (error) {
       return ctx.response.status = error;
     }
@@ -241,8 +243,9 @@ router.get(
 router.get(
   "/tournaments/:id/groups/:groupIndex/players/:username",
   async (ctx: RouterContext<string>) => {
+    const kv = await Deno.openKv();
     const id = ctx.params.id;
-    const { tournamentInfo, status, error } = await getTournamentData(id);
+    const { tournamentInfo, status, error } = await getTournamentData(id, kv);
     if (error) {
       return ctx.response.status = error;
     }
