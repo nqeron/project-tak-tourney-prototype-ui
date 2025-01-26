@@ -4,6 +4,7 @@ import type { RouterContext } from "jsr:@oak/oak/router";
 import { makeRenderer } from "../util/renderer.ts";
 import { KNOWN_TOURNAMENTS } from "../../data/data.ts";
 import { Tournament } from "../models/tournament.ts";
+import { GeneratedTournamentStatusCache } from "../cache.ts";
 
 const ADMIN_USERNAME = "admin";
 // Load this variable from local env for local development.
@@ -92,5 +93,6 @@ adminRouter.post("/tournament/:id", async (ctx: RouterContext<string>) => {
     ctx.response.status = Status.InternalServerError;
     return;
   }
+  GeneratedTournamentStatusCache.clear();
   ctx.response.redirect("/admin");
 });
