@@ -123,7 +123,16 @@
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.3/src/tournament-exception-types.ts": "3d47c7fa0b1398919c8d23f3633ca08c774acebdca2a38834b428df11c86aed4",
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.3/src/types.guard.ts": "e1e500e12931befd62fd84f6b309ea8ca221b116e12db16805d936735fd04bdb",
     "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.3/src/types.ts": "6518720ef5733ee5d37aa4dec155c89c158c6b14635365082f8ae64e9e049247",
-    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.3/src/utils.ts": "11131693a886d588f19e6991dc9fb71d2ecdf6e975f0cfe3a057ddaf1b0b9b98"
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.3/src/utils.ts": "11131693a886d588f19e6991dc9fb71d2ecdf6e975f0cfe3a057ddaf1b0b9b98",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.4/src/constants.ts": "df819ce0034c3aefd26e44d0138903892e0027bc7e2cf50c99bc96f2d4848e66",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.4/src/index.ts": "d2ba7329da90e75f60e216676c851f2121019c49d0c3b7a33b2a00460f14b9e7",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.4/src/playtak-api/types.guard.ts": "62a5ecbb52aea309f8992053709921e9bef2f19f7373fb8124299b1f5b6ea36d",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.4/src/playtak-api/types.ts": "0ad92630cc079bd1c2de261b09ae973f6b5738b672cabe658de9bc21ffbbe01f",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.4/src/tournament-analyzer.ts": "e7ea68cf5576193f30cbe9a49f3419ea5eb208aaf835601d91a2eb84d598b41e",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.4/src/tournament-exception-types.ts": "3d47c7fa0b1398919c8d23f3633ca08c774acebdca2a38834b428df11c86aed4",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.4/src/types.guard.ts": "e1e500e12931befd62fd84f6b309ea8ca221b116e12db16805d936735fd04bdb",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.4/src/types.ts": "6518720ef5733ee5d37aa4dec155c89c158c6b14635365082f8ae64e9e049247",
+    "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.4/src/utils.ts": "06d3e25d741ff281048c1a9b3909a7198d121fda0c85fe741b518e07ab1989ce"
   },
   "workspace": {
     "dependencies": [
