@@ -1,0 +1,8 @@
+<form action="/admin/tournament/<%= it.tournament.id %>" method="post">
+  <div>
+    <textarea name="info" cols="80" rows="20"><%= JSON.stringify(it.tournament.info, null, 2) %></textarea>
+  </div>
+  <div>
+    <button type="submit">Save</button>
+  </div>
+</form>

@@ -1,3 +1,9 @@
 <% layout("../layouts/admin.eta") %>
 
-<pre>// TODO</pre>
+<h2>Tournaments</h1>
+
+<ul>
+<% for (const tournament of it.tournaments) { %>
+  <li><a href="/admin/tournament/<%= tournament.id %>"><%= tournament.id %></a></li>
+<% } %>
+</ul>
