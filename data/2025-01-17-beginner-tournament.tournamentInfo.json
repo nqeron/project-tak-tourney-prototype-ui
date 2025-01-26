@@ -11,5 +11,13 @@
     "timertime": 900,
     "timerinc": 10
   },
-  "players": []
+  "players": [],
+  "exceptions": [
+    {
+      "type": "addGame",
+      "gameId": 648839,
+      "category": "regular",
+      "timestamp": "2025-01-26T05:33:43.463Z"
+    }
+  ]
 }
