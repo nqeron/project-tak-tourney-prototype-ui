@@ -15,10 +15,8 @@ import type {
   PlaytakApiTypes,
   TournamentStatusTypes,
 } from "@tak-tourney-adhoc";
-type GameListResponse = PlaytakApiTypes.GameListResponse;
 type GameResult = PlaytakApiTypes.GameResult;
 type TournamentStatus = TournamentStatusTypes.TournamentStatus;
-type TournamentInfo = TournamentStatusTypes.TournamentInfo;
 type TournamentPlayer = TournamentStatusTypes.TournamentPlayer;
 
 // Aliases for nested modules
