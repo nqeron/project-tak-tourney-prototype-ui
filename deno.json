@@ -5,7 +5,7 @@
     "start": "deno run --allow-net --allow-read main.ts"
   },
   "imports": {
-    "@tak-tourney-adhoc": "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.2.3/src/index.ts",
+    "@tak-tourney-adhoc": "https://raw.githubusercontent.com/devp/project-tak-tourney-adhoc/refs/tags/v0.4.0/src/index.ts",
     "@lambdalisue/ttl-cache": "jsr:@lambdalisue/ttl-cache@^1.0.0",
     "@oak/oak": "jsr:@oak/oak@^17.1.4",
     "@std/assert": "jsr:@std/assert@1"
