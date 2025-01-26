@@ -61,8 +61,7 @@ async function fetchGamesResponse(url: string) {
       console.info("Cache response failed isGameListResponse check");
     }
   }
-  const response2 = await (await fetch(url)).json();
-  const response = response2 as GameListResponse;
+  const response = await (await fetch(url)).json();
   if (!isGameListResponse(response)) {
     console.error("API response failed isGameListResponse check");
     return null;
