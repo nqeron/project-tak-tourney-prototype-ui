@@ -1,10 +1,11 @@
 import { Router } from "jsr:@oak/oak/router";
 import type { RouterContext } from "jsr:@oak/oak/router";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
-import { API_URL, KNOWN_TOURNAMENTS } from "../data/data.ts";
+import { API_URL, apiUrlForId, KNOWN_TOURNAMENTS } from "../data/data.ts";
 import { adminRouter } from "./routes/admin.ts";
 import { makeRenderer } from "./util/renderer.ts";
 import {
+  additionalGameIdsToFetch,
   analyzeTournamentProgress,
   GameResultConstants,
   PlaytakApiTypeGuards,
@@ -20,7 +21,7 @@ type TournamentStatus = TournamentStatusTypes.TournamentStatus;
 type TournamentPlayer = TournamentStatusTypes.TournamentPlayer;
 
 // Aliases for nested modules
-const { isGameListResponse } = PlaytakApiTypeGuards;
+const { isGameResult, isGameListResponse } = PlaytakApiTypeGuards;
 const { isTournamentStatus, isTournamentInfo } = TournamentStatusTypeGuards;
 const { WINS_FOR_WHITE, WINS_FOR_BLACK, TIES } = GameResultConstants;
 
@@ -68,6 +69,21 @@ async function fetchGamesResponse(url: string) {
   return response;
 }
 
+async function fetchGameById(id: number): Promise<GameResult | null> {
+  const url = apiUrlForId(id);
+  const cachedResponse = ApiResponseCache.get(url);
+  if (cachedResponse) {
+    return cachedResponse as GameResult;
+  }
+  const response = await (await fetch(url)).json();
+  if (!isGameResult(response)) {
+    console.error("API response failed isGameResult check");
+    return null;
+  }
+  ApiResponseCache.set(url, response);
+  return response;
+}
+
 async function getTournamentData(id: string) {
   const tournamentData =
     KNOWN_TOURNAMENTS[id as keyof typeof KNOWN_TOURNAMENTS] ?? null;
@@ -97,6 +113,16 @@ async function getTournamentData(id: string) {
         return { error: 400 };
       }
       const games = gamesResponse.items;
+
+      const additionalGameIds = additionalGameIdsToFetch(tournamentInfo);
+      if (additionalGameIds.length > 0) {
+        const additionalGames = (await Promise.all(additionalGameIds.map(
+          (id) => fetchGameById(id),
+        ))).filter((g) => g !== null);
+        if (additionalGames.length > 0) {
+          games.push(...additionalGames);
+        }
+      }
 
       const playersCsv = await (await fetch(tournamentData.playersCsvUrl))
         .text();

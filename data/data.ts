@@ -6,6 +6,9 @@ type KnownTournamentRecord = {
 export const API_URL: string =
   "https://api.playtak.com/v1/games-history?page=0&limit=500&type=Tournament&mirror=true";
 
+export const apiUrlForId = (id: number) =>
+  `https://api.playtak.com/v1/games-history/${id}`;
+
 const INTERMEDIATE_TOURNAMENT_NOV_2024: KnownTournamentRecord = {
   infoPath: "./data/2024-11-16-intermediate-tournament.tournamentInfo.json",
   playersCsvUrl:
