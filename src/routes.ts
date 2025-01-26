@@ -23,8 +23,7 @@ type TournamentPlayer = TournamentStatusTypes.TournamentPlayer;
 
 // Aliases for nested modules
 const { isGameListResponse } = PlaytakApiTypeGuards;
-const { isTournamentStatus, isTournamentInfoFromJson } =
-  TournamentStatusTypeGuards;
+const { isTournamentStatus, isTournamentInfo } = TournamentStatusTypeGuards;
 const { WINS_FOR_WHITE, WINS_FOR_BLACK, TIES } = GameResultConstants;
 
 export const router = new Router();
@@ -79,20 +78,12 @@ async function getTournamentData(id: string) {
     return { error: 404 };
   }
 
-  const tournamentInfoFromJson = JSON.parse(
+  const tournamentInfo = JSON.parse(
     await Deno.readTextFile(tournamentData.infoPath),
   );
-  if (!isTournamentInfoFromJson(tournamentInfoFromJson)) {
+  if (!isTournamentInfo(tournamentInfo)) {
     return { error: 400 };
   }
-
-  const tournamentInfo: TournamentInfo = {
-    ...tournamentInfoFromJson,
-    dateRange: {
-      start: new Date(tournamentInfoFromJson.dateRange.start),
-      end: new Date(tournamentInfoFromJson.dateRange.end),
-    },
-  };
 
   let status: TournamentStatus | undefined;
   if (tournamentData.playersCsvUrl) {
