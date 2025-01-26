@@ -74,6 +74,7 @@ async function getTournamentData(id: string) {
   const tournamentData =
     KNOWN_TOURNAMENTS[id as keyof typeof KNOWN_TOURNAMENTS] ?? null;
   if (tournamentData === null) {
+    console.error("Tournament info not found in KNOWN_TOURNAMENTS for", id);
     return { error: 404 };
   }
 
@@ -81,6 +82,9 @@ async function getTournamentData(id: string) {
     await Deno.readTextFile(tournamentData.infoPath),
   );
   if (!isTournamentInfo(tournamentInfo)) {
+    console.error(
+      `Tournament info read from ${tournamentData.infoPath} but invalid`,
+    );
     return { error: 400 };
   }
 
