@@ -2,7 +2,7 @@ import { Router } from "jsr:@oak/oak/router";
 import { Status } from "jsr:@oak/oak";
 import type { RouterContext } from "jsr:@oak/oak/router";
 import { makeRenderer } from "../util/renderer.ts";
-import { KNOWN_TOURNAMENTS } from "../../data/data.ts";
+import { DEFAULT_KNOWN_TOURNAMENTS } from "../../data/data.ts";
 import { Tournament } from "../models/tournament.ts";
 import { GeneratedTournamentStatusCache } from "../cache.ts";
 
@@ -52,7 +52,7 @@ adminRouter.use(basicAuthMiddleware);
 
 // Example admin route
 adminRouter.get("/", (ctx: RouterContext<string>) => {
-  const tournaments = Object.keys(KNOWN_TOURNAMENTS).map((id) => ({ id }));
+  const tournaments = Object.keys(DEFAULT_KNOWN_TOURNAMENTS).map((id) => ({ id }));
   return (makeRenderer("./admin/index.eta", {
     title: "Admin Dashboard",
     tournaments,

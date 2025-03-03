@@ -1,4 +1,4 @@
-import { KNOWN_TOURNAMENTS } from "../../data/data.ts";
+import { DEFAULT_KNOWN_TOURNAMENTS } from "../../data/data.ts";
 import { TournamentStatusTypeGuards } from "@tak-tourney-adhoc";
 import type { TournamentStatusTypes } from "@tak-tourney-adhoc";
 
@@ -79,7 +79,7 @@ export class Tournament {
 
   async loadInfoFromDefaultData() {
     const tournamentData =
-      KNOWN_TOURNAMENTS[this.id as keyof typeof KNOWN_TOURNAMENTS] ?? null;
+      DEFAULT_KNOWN_TOURNAMENTS[this.id as keyof typeof DEFAULT_KNOWN_TOURNAMENTS] ?? null;
     if (tournamentData === null) {
       return false;
     }
