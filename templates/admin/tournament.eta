@@ -6,3 +6,16 @@
     <button type="submit">Save</button>
   </div>
 </form>
+
+<hr />
+
+<div class="copy-tournament">
+  <h3>Copy Tournament</h3>
+  <form action="/admin/tournament/<%= it.tournament.id %>/copy" method="POST">
+    <label>
+      New Tournament ID:
+      <input type="text" name="newId" required pattern="[a-zA-Z0-9_-]+" title="Only letters, numbers, underscore and hyphen allowed">
+    </label>
+    <button type="submit">Copy Tournament</button>
+  </form>
+</div> 

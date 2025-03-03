@@ -96,3 +96,35 @@ adminRouter.post("/tournament/:id", async (ctx: RouterContext<string>) => {
   GeneratedTournamentStatusCache.clear();
   ctx.response.redirect("/admin");
 });
+
+// Add new endpoint to copy tournament
+adminRouter.post("/tournament/:id/copy", async (ctx: RouterContext<string>) => {
+  const kv = await Deno.openKv();
+  const sourceId = ctx.params.id;
+  const formData = await ctx.request.body.formData();
+  const newId = formData.get("newId");
+
+  if (!newId || typeof newId !== "string") {
+    ctx.response.status = Status.BadRequest;
+    ctx.response.body = "New tournament ID is required";
+    return;
+  }
+
+  // Load source tournament
+  const sourceTournament = await Tournament.load(sourceId, kv);
+  if (!sourceTournament) {
+    ctx.response.status = Status.NotFound;
+    ctx.response.body = "Source tournament not found";
+    return;
+  }
+
+  // Save as new tournament
+  if (!(await Tournament.save(newId, sourceTournament.info, kv))) {
+    ctx.response.status = Status.InternalServerError;
+    ctx.response.body = "Failed to save new tournament";
+    return;
+  }
+
+  GeneratedTournamentStatusCache.clear();
+  ctx.response.redirect(`/admin/tournament/${newId}`);
+});
