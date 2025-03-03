@@ -1,6 +1,11 @@
 import { Router } from "jsr:@oak/oak/router";
 import type { RouterContext } from "jsr:@oak/oak/router";
-import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
+import {
+  ApiResponseCache,
+  GeneratedTournamentStatusCache,
+  getTournamentIdCache,
+  setTournamentIdCache,
+} from "./cache.ts";
 import { API_URL, apiUrlForId } from "../data/data.ts";
 import { adminRouter } from "./routes/admin.ts";
 import { makeRenderer } from "./util/renderer.ts";
@@ -19,7 +24,6 @@ import type {
 import { Tournament } from "./models/tournament.ts";
 type GameResult = PlaytakApiTypes.GameResult;
 type TournamentStatus = TournamentStatusTypes.TournamentStatus;
-type TournamentPlayer = TournamentStatusTypes.TournamentPlayer;
 
 // Aliases for nested modules
 const { isGameResult, isGameListResponse } = PlaytakApiTypeGuards;
@@ -37,8 +41,12 @@ router.get("/", (ctx: RouterContext<string>) => {
 });
 
 router.get("/tournaments", async (ctx: RouterContext<string>) => {
-  const kv = await Deno.openKv();
-  const tournamentIds = await Tournament.listAllIds(kv);
+  let tournamentIds = getTournamentIdCache();
+  if (!tournamentIds) {
+    const kv = await Deno.openKv();
+    tournamentIds = await Tournament.listAllIds(kv);
+    setTournamentIdCache(tournamentIds);
+  }
   return (makeRenderer("./tournaments", {
     title: "Tournament List",
     tournaments: tournamentIds,
