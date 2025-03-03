@@ -78,8 +78,9 @@ export class Tournament {
   }
 
   async loadInfoFromDefaultData() {
-    const tournamentData =
-      DEFAULT_KNOWN_TOURNAMENTS[this.id as keyof typeof DEFAULT_KNOWN_TOURNAMENTS] ?? null;
+    const tournamentData = DEFAULT_KNOWN_TOURNAMENTS[
+      this.id as keyof typeof DEFAULT_KNOWN_TOURNAMENTS
+    ] ?? null;
     if (tournamentData === null) {
       return false;
     }
@@ -103,5 +104,18 @@ export class Tournament {
 
     this.info = tournamentInfo;
     return true;
+  }
+
+  static async listAllIds(kv: Deno.Kv): Promise<string[]> {
+    const defaultIds = Object.keys(DEFAULT_KNOWN_TOURNAMENTS);
+
+    const kvIds = new Set<string>();
+    for await (const entry of kv.list({ prefix: KEY })) {
+      const id = entry.key[1] as string;
+      kvIds.add(id);
+    }
+
+    // Combine and deduplicate IDs
+    return [...new Set([...defaultIds, ...kvIds])];
   }
 }

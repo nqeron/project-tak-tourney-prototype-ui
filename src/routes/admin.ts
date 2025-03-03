@@ -2,7 +2,6 @@ import { Router } from "jsr:@oak/oak/router";
 import { Status } from "jsr:@oak/oak";
 import type { RouterContext } from "jsr:@oak/oak/router";
 import { makeRenderer } from "../util/renderer.ts";
-import { DEFAULT_KNOWN_TOURNAMENTS } from "../../data/data.ts";
 import { Tournament } from "../models/tournament.ts";
 import { GeneratedTournamentStatusCache } from "../cache.ts";
 
@@ -51,8 +50,10 @@ async function basicAuthMiddleware(
 adminRouter.use(basicAuthMiddleware);
 
 // Example admin route
-adminRouter.get("/", (ctx: RouterContext<string>) => {
-  const tournaments = Object.keys(DEFAULT_KNOWN_TOURNAMENTS).map((id) => ({ id }));
+adminRouter.get("/", async (ctx: RouterContext<string>) => {
+  const kv = await Deno.openKv();
+  const tournamentIds = await Tournament.listAllIds(kv);
+  const tournaments = tournamentIds.map((id) => ({ id }));
   return (makeRenderer("./admin/index.eta", {
     title: "Admin Dashboard",
     tournaments,

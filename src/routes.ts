@@ -1,7 +1,7 @@
 import { Router } from "jsr:@oak/oak/router";
 import type { RouterContext } from "jsr:@oak/oak/router";
 import { ApiResponseCache, GeneratedTournamentStatusCache } from "./cache.ts";
-import { API_URL, apiUrlForId, DEFAULT_KNOWN_TOURNAMENTS } from "../data/data.ts";
+import { API_URL, apiUrlForId } from "../data/data.ts";
 import { adminRouter } from "./routes/admin.ts";
 import { makeRenderer } from "./util/renderer.ts";
 import {
@@ -36,10 +36,12 @@ router.get("/", (ctx: RouterContext<string>) => {
   ctx.response.redirect("/tournaments");
 });
 
-router.get("/tournaments", (ctx: RouterContext<string>) => {
+router.get("/tournaments", async (ctx: RouterContext<string>) => {
+  const kv = await Deno.openKv();
+  const tournamentIds = await Tournament.listAllIds(kv);
   return (makeRenderer("./tournaments", {
     title: "Tournament List",
-    tournaments: Object.keys(DEFAULT_KNOWN_TOURNAMENTS),
+    tournaments: tournamentIds,
   }))(ctx);
 });
 
