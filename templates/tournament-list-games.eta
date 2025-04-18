@@ -2,6 +2,12 @@
 
 <h2><%= it.tournament.name %> - Games</h2>
 
+<p>
+    &rarr; <em>
+        <a href="/tournaments/<%= it.tournament.id %>/games?onlyids=true">All Games, Just IDs</a>
+    </em>
+</p>
+
 <table>
     <tr>
         <th>Id</th>
@@ -18,10 +24,6 @@
         </tr>
     <% } %>
 </table>
-
-<div>
-    <a href="/tournaments/<%= it.tournament.id %>">&lt; <a href="/tournaments/<%= it.tournament.id %>/games?onlyids=true">Only Ids</a></a>
-</div>
 
 <div>
     <a href="/tournaments/<%= it.tournament.id %>">&lt; <%= it.tournament.name %></a>

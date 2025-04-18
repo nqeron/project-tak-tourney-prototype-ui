@@ -15,3 +15,7 @@
         <% } %>
     </p>
 <% } %>
+
+<p>
+    <a href="/tournaments/<%= it.tournament.id %>/games">All Games</a>
+</p>
