@@ -1,0 +1,28 @@
+<% layout("./layouts/basic.eta") %>
+
+<h2><%= it.tournament.name %> - Games</h2>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Players (W/B)</th>
+        <th>Result</th>
+        <th>Date</th>
+    </tr>
+    <% for (const game of it.games) { %>
+        <tr>
+            <td><a href="https://www.playtak.com/games/<%= game.id %>/ninjaviewer" target="_blank"><%= game.id %></a></td>
+            <td><%= game.player_white %> v <%= game.player_black %></td>
+            <td><%= game.result %></td>
+            <td><%= (new Date(game.date)).toISOString() %></td>
+        </tr>
+    <% } %>
+</table>
+
+<div>
+    <a href="/tournaments/<%= it.tournament.id %>">&lt; <a href="/tournaments/<%= it.tournament.id %>/games?onlyids=true">Only Ids</a></a>
+</div>
+
+<div>
+    <a href="/tournaments/<%= it.tournament.id %>">&lt; <%= it.tournament.name %></a>
+</div>

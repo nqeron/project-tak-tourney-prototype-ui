@@ -155,6 +155,38 @@ router.get("/tournaments/:id", async (ctx: RouterContext<string>) => {
   }))(ctx);
 });
 
+router.get("/tournaments/:id/games", async (ctx: RouterContext<string>) => {
+  const id = ctx.params.id;
+  const kv = await Deno.openKv();
+  const { tournamentInfo, status, error } = await getTournamentData(id, kv);
+  if (!tournamentInfo) {
+    return ctx.response.status = 404;
+  }
+  if (error) {
+    return ctx.response.status = error;
+  }
+  if (status.tournamentType !== "groupStage") {
+    return { error: 404 };
+  }
+
+  const games = (status.games ?? []);
+
+  // if param onlyids is true, returns csv
+  if (ctx.request.url.searchParams.get("onlyids") === "true") {
+    ctx.response.type = "text/txt";
+    ctx.response.body = games.map((game) => game.id).join("\n");
+    return;
+  }
+
+  return (makeRenderer("./tournament-list-games", {
+    games,
+    tournament: {
+      id,
+      name: tournamentInfo.name,
+    },
+  }))(ctx);
+});
+
 function getGroup(status: TournamentStatus, groupIndex: number) {
   if (isNaN(groupIndex) || groupIndex < 0) {
     return { error: 400 };
